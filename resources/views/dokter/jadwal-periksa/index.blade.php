@@ -19,6 +19,10 @@
                                 Tambah Jadwal Periksa
                             </button>
 
+                            <a href="{{ route('obat.index') }}" class="btn btn-success">
+                                Kelola Obat
+                            </a>
+
                             @if (session('status') === 'jadwal-periksa-created')
                             <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
                                 {{ __('Created.') }}

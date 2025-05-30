@@ -66,8 +66,44 @@ class UserSeeder extends Seeder
                 'poli' => 'THT',
             ],
         ];
+        $pasiens = [
+            [
+                'nama' => 'Andi Saputra',
+                'email' => 'andi.pasien@klinik.com',
+                'password' => Hash::make('pasien123'),
+                'role' => 'pasien',
+                'alamat' => 'Jl. Merdeka No. 1, Jakarta',
+                'no_ktp' => '3175062501990006',
+                'no_hp' => '081234567895',
+            ],
+            [
+                'nama' => 'Siti Aminah',
+                'email' => 'siti.pasien@klinik.com',
+                'password' => Hash::make('pasien123'),
+                'role' => 'pasien',
+                'alamat' => 'Jl. Kemerdekaan No. 77, Jakarta',
+                'no_ktp' => '3175060412800007',
+                'no_hp' => '081234567896',
+            ],
+        ];
+        // foreach ($dokters as $dokter) {
+        //     User::create($dokter);
+        // }
+        // foreach ($pasiens as $pasien) {
+        //     User::create($pasien);
+        // }
         foreach ($dokters as $dokter) {
-            User::create($dokter);
+            User::firstOrCreate(
+                ['email' => $dokter['email']], // cek berdasarkan email
+                $dokter // kalau belum ada, buat
+            );
+        }
+
+        foreach ($pasiens as $pasien) {
+            User::firstOrCreate(
+                ['email' => $pasien['email']],
+                $pasien
+            );
         }
     }
 }
