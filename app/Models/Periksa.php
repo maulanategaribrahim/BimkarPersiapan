@@ -16,7 +16,10 @@ class Periksa extends Model
         'tgl_periksa',
         'catatan',
         'biaya_periksa',
+        'diagnosa',
+        'tindakan',
     ];
+
 
     protected $casts = [
         'tgl_periksa' => 'datetime',

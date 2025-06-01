@@ -111,12 +111,31 @@
                                     <h3 class="text-xl font-semibold mb-4 text-center">Detail Jadwal Poli</h3>
                                     <div class="space-y-2">
                                         <p><strong>Nama Poli:</strong> {{ $item->jadwalPeriksa->poli->nama_poli ?? '-' }}</p>
+
+                                        @if ($item->periksa)
+                                        <hr class="my-3">
+                                        <h4 class="text-lg font-semibold text-center">Hasil Pemeriksaan</h4>
+                                        <p><strong>Tanggal Periksa:</strong> {{ \Carbon\Carbon::parse($item->periksa->tgl_periksa)->format('d-m-Y') }}</p>
+                                        <p><strong>Diagnosa:</strong> {{ $item->periksa->diagnosa }}</p>
+                                        <p><strong>Tindakan:</strong> {{ $item->periksa->tindakan }}</p>
+                                        <p><strong>Catatan:</strong> {{ $item->periksa->catatan }}</p>
+                                        <p><strong>Biaya:</strong> Rp {{ number_format($item->periksa->biaya_periksa, 0, ',', '.') }}</p>
+
+                                        <p><strong>Obat:</strong></p>
+                                        <ul class="list-disc list-inside">
+                                            @foreach ($item->periksa->detailPeriksas as $detail)
+                                            <li>{{ $detail->obat->nama_obat }}</li>
+                                            @endforeach
+                                        </ul>
+                                        @endif
+
                                         <p><strong>Nama Dokter:</strong> {{ $item->jadwalPeriksa->dokter->nama ?? '-' }}</p>
                                         <p><strong>Hari:</strong> {{ $item->jadwalPeriksa->hari }}</p>
                                         <p><strong>Mulai:</strong> {{ $item->jadwalPeriksa->jam_mulai }}</p>
                                         <p><strong>Selesai:</strong> {{ $item->jadwalPeriksa->jam_selesai }}</p>
                                         <p><strong>Nomor Antrian:</strong> {{ $item->no_antrian }}</p>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

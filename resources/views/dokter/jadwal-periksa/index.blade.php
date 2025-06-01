@@ -104,6 +104,7 @@
                                 <th scope="col">Mulai</th>
                                 <th scope="col">Selesai</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Lihat Janji</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -125,6 +126,13 @@
                                     <span class="badge badge-pill badge-danger">Tidak Aktif</span>
                                     @endif
                                 </td>
+                                <td>
+                                    <a href="{{ route('dokter.janji.index', ['jadwal' => $jadwalPeriksa->id]) }}" class="text-indigo-600 hover:underline">
+                                        Lihat Janji
+                                    </a>
+
+                                </td>
+
                                 <td class="align-middle text-start">
                                     <form action="{{ route('dokter.jadwal-periksa.update', $jadwalPeriksa->id) }}" method="POST">
                                         @csrf

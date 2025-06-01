@@ -31,5 +31,6 @@ class JanjiPeriksa extends Model
     public function periksa(): HasOne
     {
         return $this->hasOne(Periksa::class, 'id_janji_periksa');
+        
     }
 }
