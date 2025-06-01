@@ -19,6 +19,13 @@
                     <x-nav-link :href="route('dokter.jadwal-periksa.index')" :active="request()->routeIs('dokter.jadwal-periksa.index')">
                         {{ __('Jadwal Periksa') }}
                     </x-nav-link>
+                    @elseif (Auth::user()->role == 'pasien')
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('pasien.janji.index')" :active="request()->routeIs('pasien.janji.index')">
+                        {{ __('Daftar Poli') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>

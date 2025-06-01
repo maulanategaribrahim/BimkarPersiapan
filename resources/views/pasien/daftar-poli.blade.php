@@ -24,7 +24,19 @@
                 <textarea id="keluhan" name="keluhan" required
                     class="form-textarea mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
             </div>
-
+            @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Sukses!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.remove();">
+                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 00-1.414 1.414L8.828 10l-3.176 3.176a1 1 0 001.414 1.414L10 12.828l2.934 2.934a1 1 0 001.414-1.414L11.172 10l3.176-3.176z" />
+                    </svg>
+                </span>
+            </div>
+            @endif
             <button type="submit" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                 Daftar
             </button>
@@ -75,17 +87,16 @@
                             </button>
 
                             <!-- Modal backdrop -->
-                            <div x-show="modalOpen" 
+                            <div x-show="modalOpen"
                                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                                style="display: none;" 
-                                @click.self="modalOpen = false" 
+                                style="display: none;"
+                                @click.self="modalOpen = false"
                                 x-transition:enter="transition ease-out duration-300"
                                 x-transition:enter-start="opacity-0"
                                 x-transition:enter-end="opacity-100"
                                 x-transition:leave="transition ease-in duration-200"
                                 x-transition:leave-start="opacity-100"
-                                x-transition:leave-end="opacity-0"
-                            >
+                                x-transition:leave-end="opacity-0">
                                 <!-- Modal content -->
                                 <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative"
                                     x-transition:enter="transition transform duration-300"
@@ -93,11 +104,10 @@
                                     x-transition:enter-end="scale-100 opacity-100"
                                     x-transition:leave="transition transform duration-200"
                                     x-transition:leave-start="scale-100 opacity-100"
-                                    x-transition:leave-end="scale-90 opacity-0"
-                                >
-                                    <button @click="modalOpen = false" 
+                                    x-transition:leave-end="scale-90 opacity-0">
+                                    <button @click="modalOpen = false"
                                         class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 focus:outline-none text-xl font-bold">&times;</button>
-                                    
+
                                     <h3 class="text-xl font-semibold mb-4 text-center">Detail Jadwal Poli</h3>
                                     <div class="space-y-2">
                                         <p><strong>Nama Poli:</strong> {{ $item->jadwalPeriksa->poli->nama_poli ?? '-' }}</p>

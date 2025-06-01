@@ -14,7 +14,9 @@ class PoliSeeder extends Seeder
     {
         \App\Models\Poli::create(['nama_poli' => 'Poli Anak']);
         \App\Models\Poli::create(['nama_poli' => 'Poli Umum']);
-        \App\Models\Poli::create(['nama_poli' => 'Poli Gigi']);
+        \App\Models\Poli::create(['nama_poli' => 'Poli Kebidanan dan Kandungan']);
         \App\Models\Poli::create(['nama_poli' => 'Poli Penyakit Dalam']);
+        \App\Models\Poli::create(['nama_poli' => 'Poli Mata']);
+        \App\Models\Poli::create(['nama_poli' => 'Poli THT']);
     }
 }
