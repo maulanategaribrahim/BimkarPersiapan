@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dokter\JadwalPeriksaController;
 use App\Http\Controllers\Dokter\DokterController; // Jangan lupa import ini
+use App\Http\Controllers\Pasien\JanjiPeriksaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// pasien
+// Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->name('pasien.')->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('pasien.dashboard'); // pastikan kamu buat view ini dulu
+//     })->name('dashboard');
+
+//     Route::get('/janji-periksa', [JanjiPeriksaController::class, 'index'])->name('janji.index');
+//     Route::post('/janji-periksa', [JanjiPeriksaController::class, 'store'])->name('janji.store');
+// });
+Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->name('pasien.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('pasien.dashboard');
+    })->name('dashboard');
+
+    Route::get('/daftar-poli', [PasienController::class, 'index'])->name('daftar-poli');
+    
+    Route::get('/janji-periksa', [JanjiPeriksaController::class, 'index'])->name('janji.index');
+    Route::post('/janji-periksa', [JanjiPeriksaController::class, 'store'])->name('janji.store');
+});
+
 
 // Group route khusus role dokter
 Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () {
