@@ -20,4 +20,5 @@ class PasienController extends Controller
 
         return view('pasien.daftar-poli', compact('riwayat', 'jadwalList'));
     }
+    
 }

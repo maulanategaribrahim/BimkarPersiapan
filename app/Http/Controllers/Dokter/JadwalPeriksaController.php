@@ -31,32 +31,29 @@ class JadwalPeriksaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
-            'jam_mulai' => 'required|date_format:H:i',
-            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            'hari' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
         ]);
 
-        // Cek duplikasi jadwal yang sama
-        $exists = JadwalPeriksa::where('id_dokter', Auth::id())
-            ->where('hari', $request->hari)
-            ->where('jam_mulai', $request->jam_mulai)
-            ->where('jam_selesai', $request->jam_selesai)
-            ->exists();
+        $user = Auth::user();
 
-        if ($exists) {
-            return redirect()->back()->with('status', 'jadwal-periksa-exists');
+        if ($user->role !== 'dokter') {
+            return redirect()->back()->with('error', 'Hanya dokter yang bisa menambah jadwal.');
         }
 
         JadwalPeriksa::create([
-            'id_dokter' => Auth::id(),
+            'id_dokter' => $user->id,
+            'id_poli' => $user->poli,  
             'hari' => $request->hari,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
-            'status' => false,
+            'status' => 0,
         ]);
 
-        return redirect()->back()->with('status', 'jadwal-periksa-created');
+        return redirect()->back()->with('success', 'Jadwal berhasil ditambahkan');
     }
+
 
     // Update status aktif/nonaktif jadwal
     public function update($id)

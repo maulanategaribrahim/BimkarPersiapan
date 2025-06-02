@@ -33,15 +33,17 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="biaya_periksa" class="block font-medium text-sm text-gray-700">Biaya Periksa</label>
-                    <input type="number" name="biaya_periksa" id="biaya_periksa" class="border rounded w-full">
+                    <label for="biaya_periksa" class="block font-medium text-sm text-gray-700">Biaya Pemeriksaan (Rp)</label>
+                    <input type="number" name="biaya_periksa" id="biaya_periksa" class="border rounded w-full" value="150000" readonly>
                 </div>
 
                 <div class="mb-4">
                     <label for="obat_id" class="block font-medium text-sm text-gray-700">Obat</label>
                     <select name="obat_id[]" id="obat_id" multiple class="border rounded w-full">
                         @foreach($obats as $obat)
-                        <option value="{{ $obat->id }}">{{ $obat->nama_obat }}</option>
+                        <option value="{{ $obat->id }}" data-harga="{{ $obat->harga }}">
+                            {{ $obat->nama_obat }} (Rp{{ number_format($obat->harga, 0, ',', '.') }})
+                        </option>
                         @endforeach
                     </select>
                     <small class="text-gray-500">Gunakan Ctrl (Windows) / Cmd (Mac) untuk pilih lebih dari satu</small>
@@ -51,7 +53,25 @@
                     <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Simpan Pemeriksaan</button>
                 </div>
             </form>
-
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const biayaDasar = 150000;
+            const selectObat = document.getElementById('obat_id');
+            const inputBiaya = document.getElementById('biaya_periksa');
+
+            selectObat.addEventListener('change', function () {
+                let totalObat = 0;
+
+                Array.from(selectObat.selectedOptions).forEach(option => {
+                    const harga = parseInt(option.getAttribute('data-harga')) || 0;
+                    totalObat += harga;
+                });
+
+                inputBiaya.value = biayaDasar + totalObat;
+            });
+        });
+    </script>
 </x-app-layout>

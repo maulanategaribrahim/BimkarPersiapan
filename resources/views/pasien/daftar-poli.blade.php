@@ -8,17 +8,21 @@
             @csrf
             <div class="mb-4">
                 <label for="id_jadwal_periksa" class="block text-gray-700 font-bold mb-2">Pilih Jadwal</label>
-                <select id="id_jadwal_periksa" name="id_jadwal_periksa" required
-                    class="form-select block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                @php
+                $uniqueJadwal = $jadwalList->unique(function ($item) {
+                return $item->id_dokter . '-' . $item->hari . '-' . $item->jam_mulai . '-' . $item->jam_selesai;
+                });
+                @endphp
+
+                <select id="id_jadwal_periksa" name="id_jadwal_periksa" required class="form-select block w-full mt-1 ...">
                     <option value="">-- Pilih Jadwal --</option>
-                    @foreach ($jadwalList as $jadwal)
+                    @foreach ($uniqueJadwal as $jadwal)
                     <option value="{{ $jadwal->id }}">
                         {{ $jadwal->poli->nama_poli ?? '-' }} - {{ $jadwal->dokter->nama ?? '-' }} ({{ $jadwal->hari }} {{ $jadwal->jam_mulai }} - {{ $jadwal->jam_selesai }})
                     </option>
                     @endforeach
                 </select>
             </div>
-
             <div class="mb-4">
                 <label for="keluhan" class="block text-gray-700 font-bold mb-2">Keluhan</label>
                 <textarea id="keluhan" name="keluhan" required
@@ -111,7 +115,7 @@
                                     <h3 class="text-xl font-semibold mb-4 text-center">Detail Jadwal Poli</h3>
                                     <div class="space-y-2">
                                         <p><strong>Nama Poli:</strong> {{ $item->jadwalPeriksa->poli->nama_poli ?? '-' }}</p>
-
+                                         <p><strong>Nama Dokter:</strong> {{ $item->jadwalPeriksa->dokter->nama ?? '-' }}</p>
                                         @if ($item->periksa)
                                         <hr class="my-3">
                                         <h4 class="text-lg font-semibold text-center">Hasil Pemeriksaan</h4>
@@ -129,7 +133,7 @@
                                         </ul>
                                         @endif
 
-                                        <p><strong>Nama Dokter:</strong> {{ $item->jadwalPeriksa->dokter->nama ?? '-' }}</p>
+                                       
                                         <p><strong>Hari:</strong> {{ $item->jadwalPeriksa->hari }}</p>
                                         <p><strong>Mulai:</strong> {{ $item->jadwalPeriksa->jam_mulai }}</p>
                                         <p><strong>Selesai:</strong> {{ $item->jadwalPeriksa->jam_selesai }}</p>

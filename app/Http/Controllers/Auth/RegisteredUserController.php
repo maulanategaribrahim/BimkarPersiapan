@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
         }
 
         $currentYearMonth = date('Ym');
-        $patientCount = User::where('no_rm', 'like', $currentYearMonth . '-%')->count();
+        $patientCount = User::where('no_rekam_medis', 'like', $currentYearMonth . '-%')->count();
         $no_rm = $currentYearMonth . '-' . str_pad($patientCount + 1, 3, '0', STR_PAD_LEFT);
 
         $user = User::create([
@@ -56,7 +56,7 @@ class RegisteredUserController extends Controller
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
             'no_ktp' => $request->no_ktp,
-            'no_rm' => $no_rm,
+            'no_rekam_medis' => $no_rm,
         ]);
 
         // Login user otomatis setelah registrasi

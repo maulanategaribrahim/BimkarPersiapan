@@ -57,16 +57,17 @@
 
                                             <div class="mb-3 form-group">
                                                 <label for="hariSelect">Hari</label>
-                                                <select class="form-control" name="hari" id="hariSelect" required>
+                                                <select name="hari" class="form-control" required>
                                                     <option value="">Pilih Hari</option>
-                                                    <option>Senin</option>
-                                                    <option>Selasa</option>
-                                                    <option>Rabu</option>
-                                                    <option>Kamis</option>
-                                                    <option>Jumat</option>
-                                                    <option>Sabtu</option>
-                                                    <option>Minggu</option>
+                                                    <option value="Senin">Senin</option>
+                                                    <option value="Selasa">Selasa</option>
+                                                    <option value="Rabu">Rabu</option>
+                                                    <option value="Kamis">Kamis</option>
+                                                    <option value="Jumat">Jumat</option>
+                                                    <option value="Sabtu">Sabtu</option>
+                                                    <option value="Minggu">Minggu</option>
                                                 </select>
+
                                             </div>
 
                                             <div class="mb-3 form-group">

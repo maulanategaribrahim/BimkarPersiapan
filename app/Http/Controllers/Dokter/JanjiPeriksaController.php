@@ -20,4 +20,5 @@ class JanjiPeriksaController extends Controller
 
         return view('dokter.janji-periksa.index', compact('jadwal', 'daftarJanji'));
     }
+    
 }

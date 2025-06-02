@@ -20,7 +20,7 @@
                         {{ __('Jadwal Periksa') }}
                     </x-nav-link>
                     @elseif (Auth::user()->role == 'pasien')
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('pasien.dashboard')" :active="request()->routeIs('pasien.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('pasien.janji.index')" :active="request()->routeIs('pasien.janji.index')">

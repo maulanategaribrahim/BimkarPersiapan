@@ -54,4 +54,5 @@ class PeriksaController extends Controller
         $periksa = Periksa::with(['janjiPeriksa', 'detailPeriksas.obat'])->findOrFail($id);
         return view('dokter.periksa.show', compact('periksa'));
     }
+    
 }

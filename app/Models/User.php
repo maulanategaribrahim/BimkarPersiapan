@@ -18,16 +18,16 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-    'nama',
-    'email',
-    'password',
-    'role',
-    'alamat',
-    'no_ktp',
-    'no_hp',
-    'no_rm',
-    'poli',
-];
+        'nama',
+        'email',
+        'password',
+        'role',
+        'alamat',
+        'no_ktp',
+        'no_hp',
+        'no_rekam_medis',
+        'poli',
+    ];
 
 
     /**
@@ -51,5 +51,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function poli()
+    {
+        return $this->belongsTo(Poli::class, 'id_poli');
     }
 }

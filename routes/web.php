@@ -5,6 +5,7 @@ use App\Http\Controllers\Dokter\DokterController; // Jangan lupa import ini
 use App\Http\Controllers\Dokter\ObatController;
 use App\Http\Controllers\Dokter\PeriksaController;
 use App\Http\Controllers\Pasien\JanjiPeriksaController;
+use App\Http\Controllers\Pasien\PasienDashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->name('pasien.')->g
 
     Route::get('/janji-periksa', [JanjiPeriksaController::class, 'index'])->name('janji.index');
     Route::post('/janji-periksa', [JanjiPeriksaController::class, 'store'])->name('janji.store');
+
+    Route::get('dashboard', [PasienDashboardController::class, 'index'])->name('dashboard');
 });
 
 
@@ -51,6 +54,7 @@ Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () 
     //     return view('dokter.dashboard');
     // })->name('dokter.dashboard');
     Route::get('/dashboard', [JadwalPeriksaController::class, 'dashboard'])->name('dokter.dashboard');
+
 
     // Jadwal Periksa
     Route::prefix('jadwal-periksa')->group(function () {

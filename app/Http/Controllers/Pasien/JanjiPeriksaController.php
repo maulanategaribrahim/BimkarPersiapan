@@ -13,14 +13,21 @@ class JanjiPeriksaController extends Controller
     // Menampilkan form daftar poli + riwayat daftar poli
     public function index()
     {
-        $jadwalList = JadwalPeriksa::with('dokter', 'poli')->get();
-        $riwayat = JanjiPeriksa::with('jadwalPeriksa.dokter', 'jadwalPeriksa.poli')
-            ->where('id_pasien', Auth::id())
-            ->get();
+        $jadwalList = JadwalPeriksa::with('dokter', 'poli')
+        ->where('status', 1)
+        ->get()
+        // Hapus duplikat berdasarkan kombinasi dokter, hari, jam
+        ->unique(function ($item) {
+            return $item->id_dokter . '-' . $item->hari . '-' . $item->jam_mulai . '-' . $item->jam_selesai;
+        });
 
-        return view('pasien.daftar-poli', compact('jadwalList', 'riwayat'));
+    // Ambil riwayat janji periksa pasien
+    $riwayat = JanjiPeriksa::with('jadwalPeriksa.dokter', 'jadwalPeriksa.poli')
+        ->where('id_pasien', Auth::id())
+        ->get();
+
+    return view('pasien.daftar-poli', compact('jadwalList', 'riwayat'));
     }
-
     // Menyimpan janji periksa
     public function store(Request $request)
     {

@@ -35,6 +35,6 @@ class JadwalPeriksa extends Model
     // di app/Models/JadwalPeriksa.php
     public function poli(): BelongsTo
     {
-        return $this->belongsTo(Poli::class, 'id_poli'); // 'id_poli' sesuaikan dengan kolom foreign key ke tabel poli
+        return $this->belongsTo(Poli::class, 'id_poli'); 
     }
 }
