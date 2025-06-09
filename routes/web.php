@@ -43,8 +43,11 @@ Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->name('pasien.')->g
 
     Route::get('/janji-periksa', [JanjiPeriksaController::class, 'index'])->name('janji.index');
     Route::post('/janji-periksa', [JanjiPeriksaController::class, 'store'])->name('janji.store');
+    Route::get('/riwayat-periksa', [JanjiPeriksaController::class, 'riwayat'])->name('riwayat.index');
+
 
     Route::get('dashboard', [PasienDashboardController::class, 'index'])->name('dashboard');
+
 });
 
 

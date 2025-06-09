@@ -14,19 +14,19 @@ class JanjiPeriksaController extends Controller
     public function index()
     {
         $jadwalList = JadwalPeriksa::with('dokter', 'poli')
-        ->where('status', 1)
-        ->get()
-        // Hapus duplikat berdasarkan kombinasi dokter, hari, jam
-        ->unique(function ($item) {
-            return $item->id_dokter . '-' . $item->hari . '-' . $item->jam_mulai . '-' . $item->jam_selesai;
-        });
+            ->where('status', 1)
+            ->get()
+            // Hapus duplikat berdasarkan kombinasi dokter, hari, jam
+            ->unique(function ($item) {
+                return $item->id_dokter . '-' . $item->hari . '-' . $item->jam_mulai . '-' . $item->jam_selesai;
+            });
 
-    // Ambil riwayat janji periksa pasien
-    $riwayat = JanjiPeriksa::with('jadwalPeriksa.dokter', 'jadwalPeriksa.poli')
-        ->where('id_pasien', Auth::id())
-        ->get();
+        // Ambil riwayat janji periksa pasien
+        $riwayat = JanjiPeriksa::with('jadwalPeriksa.dokter', 'jadwalPeriksa.poli')
+            ->where('id_pasien', Auth::id())
+            ->get();
 
-    return view('pasien.daftar-poli', compact('jadwalList', 'riwayat'));
+        return view('pasien.daftar-poli', compact('jadwalList', 'riwayat'));
     }
     // Menyimpan janji periksa
     public function store(Request $request)
@@ -46,5 +46,19 @@ class JanjiPeriksaController extends Controller
         ]);
 
         return redirect()->route('pasien.janji.index')->with('success', 'Berhasil mendaftar poli.');
+    }
+    public function riwayat()
+    {
+        $riwayat = JanjiPeriksa::with([
+            'jadwalPeriksa.dokter',
+            'jadwalPeriksa.poli',
+            'pasien',
+            'periksa.detailPeriksas.obat'
+        ])
+            ->where('id_pasien', Auth::id())
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('pasien.riwayat', compact('riwayat'));
     }
 }

@@ -1,54 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h4 class="font-semibold text-xl text-gray-800 leading-tight">Janji Periksa</h4>
+        <h4 class="font-semibold text-xl text-gray-800 leading-tight">Riwayat Janji Periksa</h4>
     </x-slot>
 
     <div class="container mx-auto px-4 py-6">
-        <form method="POST" action="{{ route('pasien.janji.store') }}">
-            @csrf
-            <div class="mb-4">
-                <label for="id_jadwal_periksa" class="block text-gray-700 font-bold mb-2">Pilih Jadwal</label>
-                @php
-                $uniqueJadwal = $jadwalList->unique(function ($item) {
-                return $item->id_dokter . '-' . $item->hari . '-' . $item->jam_mulai . '-' . $item->jam_selesai;
-                });
-                @endphp
-
-                <select id="id_jadwal_periksa" name="id_jadwal_periksa" required class="form-select block w-full mt-1 ...">
-                    <option value="">-- Pilih Jadwal --</option>
-                    @foreach ($uniqueJadwal as $jadwal)
-                    <option value="{{ $jadwal->id }}">
-                        {{ $jadwal->poli->nama_poli ?? '-' }} - {{ $jadwal->dokter->nama ?? '-' }} ({{ $jadwal->hari }} {{ $jadwal->jam_mulai }} - {{ $jadwal->jam_selesai }})
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="keluhan" class="block text-gray-700 font-bold mb-2">Keluhan</label>
-                <textarea id="keluhan" name="keluhan" required
-                    class="form-textarea mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-            </div>
-            @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Sukses!</strong>
-                <span class="block sm:inline">{{ session('success') }}</span>
-                <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.remove();">
-                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20">
-                        <title>Close</title>
-                        <path d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 00-1.414 1.414L8.828 10l-3.176 3.176a1 1 0 001.414 1.414L10 12.828l2.934 2.934a1 1 0 001.414-1.414L11.172 10l3.176-3.176z" />
-                    </svg>
-                </span>
-            </div>
-            @endif
-            <button type="submit" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                Daftar
-            </button>
-        </form>
-
-        <hr class="my-6">
-
         <h5 class="text-lg font-semibold mb-4">Riwayat Daftar Poli</h5>
+
         <table class="table-auto w-full border-collapse border border-gray-200">
             <thead class="bg-gray-200">
                 <tr>
@@ -77,9 +34,9 @@
                     <td class="border px-3 py-2 text-center">{{ $item->no_antrian }}</td>
                     <td class="border px-3 py-2 text-center">
                         @if ($item->periksa)
-                        <span class="text-green-600 font-semibold">Sudah diperiksa</span>
+                            <span class="text-green-600 font-semibold">Sudah diperiksa</span>
                         @else
-                        <span class="text-red-600 font-semibold">Belum diperiksa</span>
+                            <span class="text-red-600 font-semibold">Belum diperiksa</span>
                         @endif
                     </td>
                     <td class="border px-3 py-2 text-center">
@@ -144,13 +101,11 @@
                             </div>
                         </div>
                     </td>
-
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 
-    <!-- Alpine.js -->
     <script src="//unpkg.com/alpinejs" defer></script>
 </x-app-layout>
