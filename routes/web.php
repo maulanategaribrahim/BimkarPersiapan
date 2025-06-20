@@ -47,7 +47,6 @@ Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->name('pasien.')->g
 
 
     Route::get('dashboard', [PasienDashboardController::class, 'index'])->name('dashboard');
-
 });
 
 
@@ -97,8 +96,15 @@ Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () 
 
 
 
-    // obat
-    Route::resource('obat', ObatController::class);
+    // Group khusus route OBAT
+    Route::prefix('obat')->name('dokter.obat.')->group(function () {
+        Route::get('/trashed', [ObatController::class, 'trashed'])->name('trashed');
+        Route::post('/{id}/restore', [ObatController::class, 'restore'])->name('restore');
+
+        Route::resource('/', ObatController::class)->parameters([
+            '' => 'obat'  // agar parameter tetap konsisten
+        ]);
+    });
 });
 
 require __DIR__ . '/auth.php';

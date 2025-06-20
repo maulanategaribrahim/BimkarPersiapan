@@ -44,5 +44,5 @@
     </div> -->
 
     <button type="submit" class="btn btn-primary">{{ $isEdit ? 'Perbarui' : 'Simpan' }}</button>
-    <a href="{{ route('obat.index') }}" class="btn btn-secondary">Batal</a>
+    <a href="{{ route('dokter.obat.index') }}" class="btn btn-secondary">Batal</a>
 </form>

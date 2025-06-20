@@ -26,7 +26,7 @@ class User extends Authenticatable
         'no_ktp',
         'no_hp',
         'no_rekam_medis',
-        'poli',
+        'id_poli',
     ];
 
 

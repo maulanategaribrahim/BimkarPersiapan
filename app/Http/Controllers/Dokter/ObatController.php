@@ -8,67 +8,91 @@ use Illuminate\Http\Request;
 
 class ObatController extends Controller
 {
-    // Tampilkan daftar obat
     public function index()
     {
         $obats = Obat::all();
-        return view('dokter.obat.index', compact('obats'));
+
+        return view('dokter.obat.index')->with([
+            'obats' => $obats,
+        ]);
     }
 
-    // Tampilkan form tambah obat baru
     public function create()
     {
         return view('dokter.obat.create');
     }
 
-    // Simpan data obat baru
+    public function edit($id)
+    {
+        $obat = Obat::find($id);
+
+        return view('dokter.obat.edit')->with([
+            'obat' => $obat,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
             'nama_obat' => 'required|string|max:255',
             'kemasan' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            // 'dosis' => 'nullable|string|max:255',
-            // 'aturan_pakai' => 'nullable|string|max:255',
-            // 'efek_samping' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
         ]);
 
-        Obat::create($request->all());
+        Obat::create([
+            'nama_obat' => $request->nama_obat,
+            'kemasan' => $request->kemasan,
+            'harga' => $request->harga,
+        ]);
 
-        return redirect()->route('obat.index')->with('success', 'Obat berhasil ditambahkan.');
+        return redirect()->route('dokter.obat.index')->with('status', 'obat-created');
     }
 
-    // Tampilkan form edit obat
-    public function edit($id)
-    {
-        $obat = Obat::findOrFail($id);
-        return view('dokter.obat.edit', compact('obat'));
-    }
-
-    // Update data obat
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_obat' => 'required|string|max:255',
             'kemasan' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            // 'dosis' => 'nullable|string|max:255',
-            // 'aturan_pakai' => 'nullable|string|max:255',
-            // 'efek_samping' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
         ]);
 
-        $obat = Obat::findOrFail($id);
-        $obat->update($request->all());
+        $obat = Obat::find($id);
+        $obat->update([
+            'nama_obat' => $request->nama_obat,
+            'kemasan' => $request->kemasan,
+            'harga' => $request->harga,
+        ]);
 
-        return redirect()->route('obat.index')->with('success', 'Obat berhasil diperbarui.');
+        return redirect()->route('dokter.obat.index')->with('status', 'obat-updated');
     }
 
-    // Hapus obat
     public function destroy($id)
     {
-        $obat = Obat::findOrFail($id);
-        $obat->delete();
+        $obat = Obat::find($id);
 
-        return redirect()->route('obat.index')->with('success', 'Obat berhasil dihapus.');
+        if ($obat) { // Periksa apakah data obat ditemukan
+            $obat->delete(); // Lakukan soft delete
+            return redirect()->route('dokter.obat.index')->with('success', 'Obat berhasil dihapus.'); // Redirect dengan pesan sukses
+        } else {
+            return redirect()->route('dokter.obat.index')->with('error', 'Obat tidak ditemukan.'); // Redirect dengan pesan error
+        }
+    }
+
+    public function restore($id)
+    {
+        $obat = Obat::withTrashed()->find($id);
+
+        if ($obat) {
+            $obat->restore();
+            return redirect()->route('dokter.obat.trashed')->with('success', 'Obat berhasil dipulihkan.');
+        } else {
+            return redirect()->route('dokter.obat.trashed')->with('error', 'Obat tidak ditemukan.');
+        }
+    }
+
+    public function trashed()
+    {
+        $obats = Obat::onlyTrashed()->get();
+        return view('dokter.obat.trashed', compact('obats'));
     }
 }
