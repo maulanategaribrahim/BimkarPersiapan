@@ -26,7 +26,7 @@ class PeriksaController extends Controller
             'tindakan' => 'required|string',
             'catatan' => 'nullable|string',
             'biaya_periksa' => 'nullable|numeric',
-            'obat_id' => 'required|array',
+            'obat_id' => 'required|array', //obat bisa lebih 1
             'obat_id.*' => 'exists:obats,id',
         ]);
 
