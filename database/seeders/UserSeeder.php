@@ -2,16 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Poli;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $dokters = [
@@ -65,45 +62,38 @@ class UserSeeder extends Seeder
                 'no_hp' => '081234567894',
                 'poli' => 'Poli THT',
             ],
-        ];
-        $pasiens = [
-            [
-                'nama' => 'Andi Saputra',
-                'email' => 'andi.pasien@klinik.com',
-                'password' => Hash::make('pasien123'),
-                'role' => 'pasien',
-                'alamat' => 'Jl. Merdeka No. 1, Jakarta',
-                'no_ktp' => '3175062501990006',
-                'no_hp' => '081234567895',
-            ],
-            [
-                'nama' => 'Siti Aminah',
-                'email' => 'siti.pasien@klinik.com',
-                'password' => Hash::make('pasien123'),
-                'role' => 'pasien',
-                'alamat' => 'Jl. Kemerdekaan No. 77, Jakarta',
-                'no_ktp' => '3175060412800007',
-                'no_hp' => '081234567896',
+             [
+                'nama' => 'cobadoktera, Sp.THT',
+                'email' => 'coba.pratama@klinik.com',
+                'password' => Hash::make('dokter123'),
+                'role' => 'dokter',
+                'alamat' => 'Jl. Kenanga No. 56, Jakarta Utara',
+                'no_ktp' => '3175061002820005',
+                'no_hp' => '081234567894',
+                'poli' => 'Poli Umum',
             ],
         ];
-        // foreach ($dokters as $dokter) {
-        //     User::create($dokter);
-        // }
-        // foreach ($pasiens as $pasien) {
-        //     User::create($pasien);
-        // }
-        foreach ($dokters as $dokter) {
-            User::firstOrCreate(
-                ['email' => $dokter['email']], // cek berdasarkan email
-                $dokter // kalau belum ada, buat
-            );
-        }
 
-        foreach ($pasiens as $pasien) {
-            User::firstOrCreate(
-                ['email' => $pasien['email']],
-                $pasien
-            );
+        foreach ($dokters as $dokter) {
+            $poli = Poli::where('nama_poli', $dokter['poli'])->first();
+
+            if ($poli) {
+                User::firstOrCreate(
+                    ['email' => $dokter['email']],
+                    [
+                        'nama' => $dokter['nama'],
+                        'email' => $dokter['email'],
+                        'password' => $dokter['password'],
+                        'role' => $dokter['role'],
+                        'alamat' => $dokter['alamat'],
+                        'no_ktp' => $dokter['no_ktp'],
+                        'no_hp' => $dokter['no_hp'],
+                        'id_poli' => $poli->id,
+                    ]
+                );
+            } else {
+                echo "Poli '{$dokter['poli']}' tidak ditemukan!\n";
+            }
         }
     }
 }

@@ -21,9 +21,10 @@ class DatabaseSeeder extends Seeder
 
         // Panggil seeder tambahan (UserSeeder)
         $this->call([
+            PoliSeeder::class,
             UserSeeder::class,
             JadwalPeriksaSeeder::class,
-            PoliSeeder::class
+            ObatSeeder::class,
 
         ]);
     }

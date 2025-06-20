@@ -19,7 +19,7 @@
                     <x-nav-link :href="route('dokter.jadwal-periksa.index')" :active="request()->routeIs('dokter.jadwal-periksa.index')">
                         {{ __('Jadwal Periksa') }}
                     </x-nav-link>
-                     <x-nav-link :href="route('dokter.obat.index')" :active="request()->routeIs('dokter.obat.index')">
+                    <x-nav-link :href="route('dokter.obat.index')" :active="request()->routeIs('dokter.obat.index')">
                         {{ __('Obat') }}
                     </x-nav-link>
                     @elseif (Auth::user()->role == 'pasien')
@@ -58,7 +58,8 @@
                             <div><strong>Email:</strong> {{ Auth::user()->email }}</div>
                             <div><strong>No. HP:</strong> {{ Auth::user()->no_hp }}</div>
                             <div><strong>Alamat:</strong> {{ Auth::user()->alamat }}</div>
-                            <div><strong>Poli:</strong> {{ Auth::user()->poli->nama_poli }}</div>
+                            <div><strong>Poli:</strong> {{ Auth::user()->poli ? Auth::user()->poli->nama_poli : '-' }}</div>
+
                         </div>
 
                         <!-- Link ke Profile -->
